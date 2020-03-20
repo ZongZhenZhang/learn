@@ -1,11 +1,14 @@
 package com.zhang.hibernate;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Date;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.jdbc.Work;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
 import org.junit.After;
@@ -42,6 +45,13 @@ public class HibernateTest {
 	public void testConfiguration() {
 		News news = new News("标题", "作者", new Date());
 		session.save(news);
+		session.doWork(new Work() {
+			
+			@Override
+			public void execute(Connection connection) throws SQLException {
+				System.out.println(connection);
+			}
+		});
 	}
 	
 
